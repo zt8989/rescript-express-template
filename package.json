@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "watch:node": "nodemon -r dotenv/config ./bin/www",
     "watch:rescript": "rescript build -w -with-deps",
-    "build": "rescript build"
+    "build": "rescript build",
+    "migrate": "sequelize-cli db:migrate"
   },
   "dependencies": {
     "@ryyppy/rescript-promise": "^2.1.0",
@@ -16,7 +17,6 @@
     "express": "^4.17.1",
     "express-winston": "^4.1.0",
     "http-errors": "~1.6.3",
-    "migrate": "^1.7.0",
     "morgan": "~1.9.1",
     "mysql2": "^2.3.0",
     "nodemon": "^2.0.12",

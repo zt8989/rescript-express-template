@@ -2,7 +2,7 @@
 loadEnv()
 
 @module("path") external join: (string, string) => string = "join"
-@module external logger: string => 'a = "morgan"
+// @module external logger: string => 'a = "morgan"
 @module external cookieParser: unit => 'a = "cookie-parser"
 @module external createError: int => 'a = "http-errors"
 @module("swig") external renderFile: (. unit) => 'a = "renderFile"
@@ -14,7 +14,11 @@ let app = Express.expressCjs()
 
 app->use(
   Winston.logger({
-    "transports": [Winston.console()],
+    "transports": [Winston.makeConsole()],
+    "format": Winston.format->Winston.combine(
+      Winston.format->Winston.colorize(),
+      Winston.format->Winston.json(),
+    ),
   }),
 )
 
@@ -22,7 +26,7 @@ app->use(
 app->Express2.engine("html", renderFile)
 app->Express2.set("views", join(__dirname, "views"))
 app->Express2.set("view engine", "html")
-app->Express.use(Express.asMiddleware(logger("dev")))
+// app->Express.use(Express.asMiddleware(logger("dev")))
 app->Express.use(Express.jsonMiddleware())
 app->Express.use(Express.urlencodedMiddlewareWithOptions({"extended": false}))
 app->Express.use(Express.asMiddleware(cookieParser()))
@@ -30,6 +34,16 @@ app->Express.use(Express.staticMiddleware(join(__dirname, "public")))
 
 app->useRouterWithPath("/", Index.router)
 app->useRouterWithPath("/users", Users.router)
+
+app->use(
+  Winston.errorLogger({
+    "transports": [Winston.makeConsole()],
+    "format": Winston.format->Winston.combine(
+      Winston.format->Winston.colorize(),
+      Winston.format->Winston.json(),
+    ),
+  }),
+)
 
 app->Express.use((_req, _res, next) => {
   next(createError(404))
