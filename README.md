@@ -1,6 +1,7 @@
-
+# rescript-express-template
 
 # Build
+
 ```
 npm run build
 ```
@@ -10,4 +11,3 @@ npm run build
 ```
 npm run watch
 ```
-
