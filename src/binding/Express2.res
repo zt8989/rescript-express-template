@@ -5,9 +5,21 @@
 @send external engine: (Express.express, string, 'a) => unit = "engine"
 @get external app: Express.req => Express.express = "app"
 
-let thenJson = (then: Promise.t<'a>, res: Express.res) => {
-  then->Promise.thenResolve(Express.json(res))
+open Promise
+let thenJson = (next: Promise.t<'a>, res: Express.res) => {
+  next
+  ->Promise.thenResolve(Express.json(res))
+  ->Promise.catch(error =>
+    switch error {
+    | JsError(err) =>
+      switch Js.Exn.message(err) {
+      | Some(msg) => Express.json(res, Result.makeErrorWithData(msg, err))
+      | None => Express.json(res, err)
+      }
+    | _ => Express.json(res, Result.makeErrorWithData(`未知的错误`, error))
+    }->Promise.resolve
+  )
 }
-let thenJsonIgnore = (then: Promise.t<'a>, res: Express.res) => {
-  thenJson(then, res)->ignore
+let thenJsonIgnore = (next: Promise.t<'a>, res: Express.res) => {
+  thenJson(next, res)->ignore
 }

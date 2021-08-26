@@ -12,6 +12,12 @@ open Express
 
 let app = Express.expressCjs()
 
+app->use(
+  Winston.logger({
+    "transports": [Winston.console()],
+  }),
+)
+
 // view engine setup
 app->Express2.engine("html", renderFile)
 app->Express2.set("views", join(__dirname, "views"))

@@ -12,3 +12,10 @@ let makeError = (message: string) => {
   message: message,
   success: false,
 }
+
+let makeErrorWithData = (message: string, data: 'a) => {
+  code: 500,
+  data: data,
+  message: message,
+  success: false,
+}
