@@ -7,5 +7,5 @@
     "in-source": true
   },
   "suffix": ".bs.js",
-  "bs-dependencies": ["rescript-express"]
+  "bs-dependencies": ["rescript-express", "@ryyppy/rescript-promise"]
 }

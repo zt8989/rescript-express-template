@@ -1,12 +1,12 @@
 open Express.Router
 let router = make()
 
-router->get("/", (req, res) => {
+router->get("/", (_req, res) => {
   let result = Js.Dict.fromArray([("title", "Express")])
-  res->Express2.render("index", Some(result))
+  res->Express2.renderWithOptions("index", result)
 })
 
-router->get("/api", (req, res) => {
+router->get("/api", (_req, res) => {
   res
   ->Express.json({
     "hello": "world",

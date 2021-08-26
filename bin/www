@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require("../src/app");
+var app = require("../src/app.bs").app;
 var debug = require("debug")("re-site:server");
 var http = require("http");
 

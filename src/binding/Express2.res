@@ -1,1 +1,5 @@
-@send external render: (Express.res, string, option<'a>) => unit = "render"
+@send external render: (Express.res, string) => unit = "render"
+@send external renderWithOptions: (Express.res, string, 'a) => unit = "render"
+@send external set: (Express.express, string, 'a) => unit = "set"
+@send external get: (Express.express, string) => 'a = "get"
+@get external app: Express.req => Express.express = "app"

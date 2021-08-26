@@ -1,9 +1,15 @@
 let make = () => {
-  let connect = Mysql.createConnection({
+  let connect = Sequelize.make({
     host: "localhost",
-    user: "root",
+    port: None,
+    username: "root",
     password: "my-secret-pw",
     database: "re-site",
+    dialect: "mysql",
+    dialectModule: None,
+    dialectModulePath: None,
+    storage: None,
+    protocol: None,
   })
   connect
 }

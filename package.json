@@ -7,6 +7,7 @@
     "watch": "nodemon ./bin/www"
   },
   "dependencies": {
+    "@ryyppy/rescript-promise": "^2.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "^4.17.1",
@@ -15,8 +16,10 @@
     "migrate": "^1.7.0",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "mysql2": "^2.3.0",
     "nodemon": "^2.0.12",
-    "rescript-express": "^0.4.1"
+    "rescript-express": "^0.4.1",
+    "sequelize": "^6.6.5"
   },
   "devDependencies": {
     "rescript": "^9.1.4"

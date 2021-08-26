@@ -1,6 +1,6 @@
 open Express.Router
 let router = make()
 
-router->get("/", (req, res) => {
+router->get("/", (_req, res) => {
   res->Express.send("respond with a resource")->ignore
 })

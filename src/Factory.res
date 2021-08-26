@@ -1,0 +1,1 @@
+let db = Database.make()

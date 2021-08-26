@@ -1,41 +1,41 @@
-%%raw(`var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+@module("path") external join: (string, string) => string = "join"
+@module external logger: string => 'a = "morgan"
+@module external cookieParser: unit => 'a = "cookie-parser"
+@module external createError: int => 'a = "http-errors"
+@val external __dirname: string = "__dirname"
 
-var indexRouter = require('./routes/index').router;
-var usersRouter = require('./routes/users').router;
+open Express
 
-var app = express();
+let app = Express.expressCjs()
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app->Express2.set("views", join(__dirname, "views"))
+app->Express2.set("view engine", "jade")
+app->Express.use(Express.asMiddleware(logger("dev")))
+app->Express.use(Express.jsonMiddleware())
+app->Express.use(Express.urlencodedMiddlewareWithOptions({"extended": false}))
+app->Express.use(Express.asMiddleware(cookieParser()))
+app->Express.use(Express.staticMiddleware(join(__dirname, "public")))
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app->useRouterWithPath("/", Index.router)
+app->useRouterWithPath("/users", Users.router)
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app->Express.use((_req, _res, next) => {
+  next(createError(404))
+})
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
+app->Express.useWithError((err, req, res, _next) => {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  let locals = res->locals
+  locals["message"] = err->Js.Exn.message
+  locals["error"] = if req->Express2.app->Express2.get("env") === "development" {
+    Some(err)
+  } else {
+    None
+  }
 
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+  res->status(err->Exn2.status->Js.Option.getWithDefault(500, _))->ignore
 
-module.exports = app;`)
+  res->Express2.render("error")
+})
