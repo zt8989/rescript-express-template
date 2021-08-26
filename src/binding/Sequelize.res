@@ -24,8 +24,7 @@ module Model = {
   @send external get: (t, string) => 'a = "get"
 }
 
-@send external define: (t, string) => Model.t = "define"
-@send external define2: (t, string, 'a) => Model.t = "define"
-@send external define3: (t, string, option<'a>, option<'b>) => Model.t = "define"
+@send external define: (t, string, 'a) => Model.t = "define"
+@send external defineWithOptions: (t, string, 'a, 'b) => Model.t = "define"
 
 @module("sequelize") external dataTypes: 'a = "DataTypes"

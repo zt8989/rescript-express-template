@@ -2,5 +2,11 @@ open Express.Router
 let router = make()
 
 router->get("/", (_req, res) => {
-  res->Express.send("respond with a resource")->ignore
+  Model.user
+  ->Sequelize.Model.findAll(None)
+  ->Promise.then(result => {
+    res->Express.json(result)->ignore
+    Promise.resolve()
+  })
+  ->ignore
 })

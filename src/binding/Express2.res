@@ -2,4 +2,5 @@
 @send external renderWithOptions: (Express.res, string, 'a) => unit = "render"
 @send external set: (Express.express, string, 'a) => unit = "set"
 @send external get: (Express.express, string) => 'a = "get"
+@send external engine: (Express.express, string, 'a) => unit = "engine"
 @get external app: Express.req => Express.express = "app"

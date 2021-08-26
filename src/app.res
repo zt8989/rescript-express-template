@@ -1,7 +1,11 @@
+@module("dotenv") external loadEnv: unit => unit = "config"
+loadEnv()
+
 @module("path") external join: (string, string) => string = "join"
 @module external logger: string => 'a = "morgan"
 @module external cookieParser: unit => 'a = "cookie-parser"
 @module external createError: int => 'a = "http-errors"
+@module("swig") external renderFile: (. unit) => 'a = "renderFile"
 @val external __dirname: string = "__dirname"
 
 open Express
@@ -9,8 +13,9 @@ open Express
 let app = Express.expressCjs()
 
 // view engine setup
+app->Express2.engine("html", renderFile)
 app->Express2.set("views", join(__dirname, "views"))
-app->Express2.set("view engine", "jade")
+app->Express2.set("view engine", "html")
 app->Express.use(Express.asMiddleware(logger("dev")))
 app->Express.use(Express.jsonMiddleware())
 app->Express.use(Express.urlencodedMiddlewareWithOptions({"extended": false}))
