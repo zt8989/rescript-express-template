@@ -1,10 +1,11 @@
 @module("dotenv") external loadEnv: unit => unit = "config"
 loadEnv()
 
-@module("path") external join: (string, string) => string = "join"
+@module("app-root-path") external resolve: string => string = "resolve"
 // @module external morgan: (string, 'b) => 'a = "morgan"
 @module external cookieParser: unit => 'a = "cookie-parser"
 @module external createError: int => 'a = "http-errors"
+@module("express-vhtml-views") external createEngine: unit => 'a = "createEngine"
 @module("swig") external renderFile: (. unit) => 'a = "renderFile"
 @val external __dirname: string = "__dirname"
 
@@ -19,14 +20,14 @@ app->use(
 )
 
 // view engine setup
-app->Express2.engine("html", renderFile)
-app->Express2.set("views", join(Logger.appRoot, "views"))
-app->Express2.set("view engine", "html")
+app->Express2.engine("jsx", createEngine())
+app->Express2.set("views", resolve("views"))
+app->Express2.set("view engine", "jsx")
 // app->Express.use(Express.asMiddleware(morgan("combined", {"stream": Logger.stream})))
 app->Express.use(Express.jsonMiddleware())
 app->Express.use(Express.urlencodedMiddlewareWithOptions({"extended": false}))
 app->Express.use(Express.asMiddleware(cookieParser()))
-app->Express.use(Express.staticMiddleware(join(Logger.appRoot, "public")))
+app->Express.use(Express.staticMiddleware(resolve("public")))
 
 app->useRouterWithPath("/", Index.router)
 app->useRouterWithPath("/users", Users.router)
