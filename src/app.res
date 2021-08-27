@@ -20,13 +20,13 @@ app->use(
 
 // view engine setup
 app->Express2.engine("html", renderFile)
-app->Express2.set("views", join(__dirname, "views"))
+app->Express2.set("views", join(Logger.appRoot, "views"))
 app->Express2.set("view engine", "html")
 // app->Express.use(Express.asMiddleware(morgan("combined", {"stream": Logger.stream})))
 app->Express.use(Express.jsonMiddleware())
 app->Express.use(Express.urlencodedMiddlewareWithOptions({"extended": false}))
 app->Express.use(Express.asMiddleware(cookieParser()))
-app->Express.use(Express.staticMiddleware(join(__dirname, "public")))
+app->Express.use(Express.staticMiddleware(join(Logger.appRoot, "public")))
 
 app->useRouterWithPath("/", Index.router)
 app->useRouterWithPath("/users", Users.router)
