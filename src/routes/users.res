@@ -6,7 +6,12 @@ router->get("/", (_req, res) => {
 })
 
 router->get("/:id", (req, res) => {
-  Model.user->Sequelize.Model.findByPk(req->Express.param("id"))->Express2.thenJsonIgnore(res)
+  Model.user
+  ->Sequelize.Model.findByPk({
+    let params = req->Express.params
+    params["id"]
+  })
+  ->Express2.thenJsonIgnore(res)
 })
 
 router->post("/", (req, res) => {

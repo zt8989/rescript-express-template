@@ -7,7 +7,9 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../../config/config.js")[env];
 const db = {};
+const logger = require("../utils/Logger.bs").logger;
 
+config.logging = (msg) => logger.info(msg);
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);

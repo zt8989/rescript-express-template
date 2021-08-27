@@ -8,7 +8,7 @@
 open Promise
 let thenJson = (next: Promise.t<'a>, res: Express.res) => {
   next
-  ->Promise.thenResolve(Express.json(res))
+  ->Promise.thenResolve(result => result->Result.makeOk->Express.json(res, _))
   ->Promise.catch(error =>
     switch error {
     | JsError(err) =>
